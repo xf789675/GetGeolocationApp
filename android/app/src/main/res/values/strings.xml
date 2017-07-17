@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AwesomeProject</string>
+    <string name="account_type">com.awesomeproject.account</string>
+    <string name="content_authority">com.awesomeproject.authority</string>    
+</resources>
