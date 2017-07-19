@@ -27,7 +27,7 @@ export default class AwesomeProject extends Component {
       debug: true,
       startOnBoot: false,
       stopOnTerminate: false,
-      locationProvider: BackgroundGeolocation.provider.ANDROID_ACTIVITY_PROVIDER,
+      locationProvider: BackgroundGeolocation.provider.ANDROID_DISTANCE_FILTER_PROVIDER,
       interval: 10000,
       fastestInterval: 5000,
       activitiesInterval: 10000,
@@ -42,6 +42,7 @@ export default class AwesomeProject extends Component {
     BackgroundGeolocation.on('location', (location) => {
       //handle your locations here
       //Actions.sendLocation(location);
+      console.log('get the location!');
       console.log(location);
     });
 
