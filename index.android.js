@@ -32,10 +32,10 @@ export default class AwesomeProject extends Component {
       fastestInterval: 5000,
       activitiesInterval: 10000,
       stopOnStillActivity: false,
-      url: 'http://67.209.181.134:3000/position',
-      httpHeaders: {
-        'X-FOO': 'bar'
-      },
+      // url: 'http://67.209.181.134:3000/position',
+      // httpHeaders: {
+      //   'X-FOO': 'bar'
+      // },
       syncTreshold: 1
     });
 
@@ -44,6 +44,14 @@ export default class AwesomeProject extends Component {
       //Actions.sendLocation(location);
       console.log('get the location!');
       console.log(location);
+      fetch('http://67.209.181.134:3000/position', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(location),
+      });
     });
 
     BackgroundGeolocation.on('stationary', (stationaryLocation) => {
