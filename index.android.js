@@ -16,11 +16,35 @@ import {
 import BackgroundGeolocation from 'react-native-mauron85-background-geolocation';
 
 export default class AwesomeProject extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      simInfo: '',
+      phoneNumber: '',
+      iccid: '',
+      imei: '',
+      carrierName: '',
+    };
+  }
   componentWillMount() {
+    const simInfo = SimInfo.getSimInfo();
+    const phoneNumber = simInfo.phoneNumber0;
+    const iccid = simInfo.simSerialNumber0;
+    const imei = simInfo.deviceId0;
+    const carrierName = simInfo.carrierName0;
+
+    this.setState({
+      simInfo: simInfo,
+      phoneNumber: phoneNumber,
+      iccid: iccid,
+      imei: imei,
+      carrierName: carrierName,
+    });
+
     BackgroundGeolocation.configure({
       desiredAccuracy: 10,
       stationaryRadius: 50,
-      distanceFilter: 50,
+      distanceFilter: 0,
       locationTimeout: 30,
       notificationTitle: 'Background tracking',
       notificationText: 'enabled',
@@ -28,8 +52,8 @@ export default class AwesomeProject extends Component {
       startOnBoot: false,
       stopOnTerminate: false,
       locationProvider: BackgroundGeolocation.provider.ANDROID_DISTANCE_FILTER_PROVIDER,
-      interval: 10000,
-      fastestInterval: 5000,
+      interval: 60000 * 5,
+      fastestInterval: 60000,
       activitiesInterval: 10000,
       stopOnStillActivity: false,
       // url: 'http://67.209.181.134:3000/position',
@@ -44,20 +68,27 @@ export default class AwesomeProject extends Component {
       //Actions.sendLocation(location);
       console.log('get the location!');
       console.log(location);
+
+      location.iccid = iccid;
+      location.imei = imei;
+      location.phone = phoneNumber;
       fetch('http://67.209.181.134:3000/position', {
         method: 'POST',
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(location),
+        body: JSON.stringify(location)
+      })
+      .catch((error) => {
+        console.error(error);
       });
     });
 
     BackgroundGeolocation.on('stationary', (stationaryLocation) => {
       //handle stationary locations here
       // Actions.sendLocation(stationaryLocation);
-      console.log('[DEBUG] BackgroundGeolocation location', location);
+      console.log('[DEBUG] BackgroundGeolocation stationary location', location);
     });
 
     BackgroundGeolocation.on('error', (error) => {
@@ -70,42 +101,21 @@ export default class AwesomeProject extends Component {
   }
 
   render() {
-    const simInfo = SimInfo.getSimInfo();
-    const phoneNumber = simInfo.phoneNumber0;
-    const iccid = simInfo.simSerialNumber0;
-    const imei = simInfo.deviceId0;
-    const carrierName = simInfo.carrierName0;
+    
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
+        <Text style={styles.instructions}>
+          Phone Number: {this.state.phoneNumber}
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.android.js
+          Device ID: {this.state.imei}
         </Text>
         <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
+          ICCID: {this.state.iccid}
         </Text>
         <Text style={styles.instructions}>
-          Phone Number: {phoneNumber}{'\n'}
-          Device ID: {imei}{'\n'}
-          ICCID: {iccid}{'\n'}
-          Carrier Name: {carrierName}
+          Carrier Name: {this.state.carrierName}
         </Text>
-        <Button
-          onPress={() => {
-            BackgroundGeolocation.getLocations((locations) => {
-              console.log(`Get Locations success: ${locations}`);
-              //Actions.sendLocation(locations);
-            }, () => {
-              console.log('Get Locations failed!');
-            })
-          }}
-          title="Get Locations"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
       </View>
     );
   }
