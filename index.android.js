@@ -42,8 +42,8 @@ export default class AwesomeProject extends Component {
     });
 
     BackgroundGeolocation.configure({
-      desiredAccuracy: 10,
-      stationaryRadius: 50,
+      desiredAccuracy: 100,
+      stationaryRadius: 0,
       distanceFilter: 0,
       locationTimeout: 30,
       notificationTitle: 'Background tracking',
@@ -52,7 +52,7 @@ export default class AwesomeProject extends Component {
       startOnBoot: false,
       stopOnTerminate: false,
       locationProvider: BackgroundGeolocation.provider.ANDROID_DISTANCE_FILTER_PROVIDER,
-      interval: 60000 * 5,
+      interval: 6000 * 5,
       fastestInterval: 60000,
       activitiesInterval: 10000,
       stopOnStillActivity: false,
