@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import SimInfo from 'react-native-sim';
+import RNSimLocation from 'react-native-sim-location';
 import {
   AppRegistry,
   StyleSheet,
@@ -52,7 +53,7 @@ export default class AwesomeProject extends Component {
       startOnBoot: false,
       stopOnTerminate: false,
       locationProvider: BackgroundGeolocation.provider.ANDROID_DISTANCE_FILTER_PROVIDER,
-      interval: 6000 * 5,
+      interval: 60000 * 10,
       fastestInterval: 60000,
       activitiesInterval: 10000,
       stopOnStillActivity: false,
@@ -116,6 +117,12 @@ export default class AwesomeProject extends Component {
         <Text style={styles.instructions}>
           Carrier Name: {this.state.carrierName}
         </Text>
+        <Button
+          onPress={() => {
+            console.log(RNSimLocation.default)
+          }}
+          title="Press Me"
+        />
       </View>
     );
   }

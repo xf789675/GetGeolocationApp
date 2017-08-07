@@ -11,6 +11,7 @@ import com.facebook.soloader.SoLoader;
 import com.marianhello.react.BackgroundGeolocationPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import eu.sigrlami.sim.RNSimReactPackage;
+import com.melody.simLocation.RNSimLocationReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
           new BackgroundGeolocationPackage(),
           new RNDeviceInfo(),
-          new RNSimReactPackage()
+          new RNSimReactPackage(),
+          new RNSimLocationReactPackage()
       );
     }
   };
