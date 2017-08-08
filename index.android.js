@@ -119,7 +119,11 @@ export default class AwesomeProject extends Component {
         </Text>
         <Button
           onPress={() => {
-            console.log(RNSimLocation.default)
+            RNSimLocation.getSimLocation((result) => {
+              console.log(result);
+            }, (error) => {
+              console.log(error);
+            })
           }}
           title="Press Me"
         />
