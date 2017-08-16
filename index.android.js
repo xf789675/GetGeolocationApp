@@ -12,7 +12,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  ToastAndroid
 } from 'react-native';
 import BackgroundGeolocation from 'react-native-mauron85-background-geolocation';
 
@@ -53,7 +54,7 @@ export default class AwesomeProject extends Component {
       startOnBoot: false,
       stopOnTerminate: false,
       locationProvider: BackgroundGeolocation.provider.ANDROID_DISTANCE_FILTER_PROVIDER,
-      interval: 60000 * 10,
+      interval: 60000 * 30,
       fastestInterval: 60000,
       activitiesInterval: 10000,
       stopOnStillActivity: false,
@@ -120,9 +121,9 @@ export default class AwesomeProject extends Component {
         <Button
           onPress={() => {
             RNSimLocation.getSimLocation((result) => {
-              console.log(result);
+              ToastAndroid.show(result, ToastAndroid.SHORT);
             }, (error) => {
-              console.log(error);
+              ToastAndroid.show(error, ToastAndroid.SHORT);
             })
           }}
           title="Press Me"
